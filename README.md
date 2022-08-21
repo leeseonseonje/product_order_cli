@@ -6,17 +6,7 @@ BackEnd: Java11, Spring Boot(2.7.3), Spring Data Jpa, JUnit5, Gradle
 
 DB: H2 In Memory DB
 
-## 프로젝트 구조
-Application 클래스의 main 메서드로 실행한다.
-
-InitData 클래스에서 @PostConstruct를 이용하여 애플리케이션 시작 시점에 제공받은 csv 파일을 불러와 H2 데이터베이스에 저장한다.
-
-handler.CommandHandlerImpl에서 명령을 입력받는다. 현재는 order, quit 명령어만 존재한다.
-
-핸들러에서 입력받은 명령어와 주입 받은 ApplicationContext를 Command.command enum 클래스에 주입시켜 입력받은 명령어에 맞는 포매터를 실행한다.
-
-포매터에서 입력받은 명령에 맞는 서비스를 주입받아 비즈니스 로직을 수행 후 반환 받은 값을 이용해 콘솔에 출력해준다.
-
+## 실행 화면
 ### ex) 주문 명령어를 입력 받았을 경우
 <img width="693" alt="스크린샷 2022-06-01 오후 10 49 09" src="https://user-images.githubusercontent.com/72899707/171420653-2d3f6e29-9e35-4fdb-82ef-b17b35e5be89.png">
 Command의 execute메서드 실행
