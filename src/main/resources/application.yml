@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: application
   datasource:
     url: jdbc:h2:tcp://localhost/~/order_cli
     username: sa
@@ -8,7 +10,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-#    properties:
-#      hibernate:
-#        show_sql: true
-#        format_sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
