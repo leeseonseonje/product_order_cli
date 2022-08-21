@@ -2,7 +2,7 @@
 
 ## 기술 스택
 IDE: IntelliJ
-BackEnd: Java11, Spring Boot(2.7.3), Spring Data Jpa, JUnit5, Gradle
+BackEnd: Java11, Spring Boot, Spring Data Jpa
 
 DB: H2 In Memory DB
 
