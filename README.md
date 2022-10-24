@@ -1,27 +1,3 @@
-# 상품 주문 프로그램
-
-## 기술 스택
-IDE: IntelliJ
-BackEnd: Java11, Spring Boot, Spring Data Jpa
-
-DB: H2 In Memory DB
-
-## 실행 화면
-### ex) 주문 명령어를 입력 받았을 경우
-<img width="693" alt="스크린샷 2022-06-01 오후 10 49 09" src="https://user-images.githubusercontent.com/72899707/171420653-2d3f6e29-9e35-4fdb-82ef-b17b35e5be89.png">
-Command의 execute메서드 실행
-
-<img width="945" alt="스크린샷 2022-06-01 오후 10 51 40" src="https://user-images.githubusercontent.com/72899707/171421001-e5139a20-5c2c-4261-922c-2b5a94e44272.png">
-주문 명령어에 맞는 OrderFormatter클래스를 실행
-
-<img width="623" alt="스크린샷 2022-06-01 오후 10 54 03" src="https://user-images.githubusercontent.com/72899707/171421482-2713e3cf-d631-4097-90ad-244eccfb8e7a.png">
-OrderFormatter의 주문 번호와 수량을 입력받는 부분
-<img width="687" alt="스크린샷 2022-06-01 오후 10 55 46" src="https://user-images.githubusercontent.com/72899707/171421871-acf42211-e60f-4773-bfc5-ed5dbb6fd3db.png">
-주문 번호와 수량을 입력하는 부분에서 " "(공백)명령어를 입력하게 되면 주문이 종료되고, orderFormatter의 orderResult메서드에서 서비스계층을 호출하게 되고, 주문한 내역과 총 결제 금액을 보여주게 된다.
-<img width="943" alt="스크린샷 2022-06-01 오후 11 01 49" src="https://user-images.githubusercontent.com/72899707/171423207-c8c483ae-2773-418c-952c-8f6cb198d684.png">
-OrderFormatter에서 입력 받은 주문 번호와 수량을 이용하여 주문 결과를 만들어 OrderFormatter에 반환 한다.
-
-OrderFormatter 의 orderResult메서드 에서 OrderService에게 반환 받은 값을 이용하여 주문 결과를 콘솔에 출력한다.
 
 ## 구현 방향
 주문(order)외에 다른 명령어가 도입될수도 있다는 가정을 염두에 두고 확장성에 많이 신경을 썻다.
