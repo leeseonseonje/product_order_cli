@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.Integer.*;
 import static java.lang.Long.*;
@@ -35,26 +33,26 @@ public class OrderFormatter implements CommandFormatter {
 
         productsPrint(products);
 
-        Map<Long, Integer> map = new HashMap<>();
+        OrderTransactions orderTransactions = new OrderTransactions();
 
         while (true) {
 
             String numberInput = input("\n상품번호 : ");
 
-            if (endOrder(numberInput, map)) {
+            if (endOrder(numberInput, orderTransactions)) {
                 break;
             }
 
             String quantityInput = input("\n수량 : ");
 
-            if (endOrder(quantityInput, map)) {
+            if (endOrder(quantityInput, orderTransactions)) {
                 break;
             }
 
             Long productNumber = parseLong(numberInput);
             Integer quantity = parseInt(quantityInput);
 
-            createOrderTransactions(map, productNumber, quantity);
+            orderTransactions.createOrderTransaction(productNumber, quantity);
         }
     }
 
@@ -72,12 +70,7 @@ public class OrderFormatter implements CommandFormatter {
         return commandReader.read();
     }
 
-    private void createOrderTransactions(Map<Long, Integer> map, Long productNumber, Integer quantity) {
-        Integer currentQuantity = map.getOrDefault(productNumber, 0);
-        map.put(productNumber, currentQuantity + quantity);
-    }
-
-    private boolean endOrder(String command, Map<Long, Integer>orderTransactions) {
+    private boolean endOrder(String command, OrderTransactions orderTransactions) {
         if (command.equals(" ")) {
             orderResult(orderTransactions);
             return true;
@@ -85,7 +78,7 @@ public class OrderFormatter implements CommandFormatter {
         return false;
     }
 
-    private void orderResult(Map<Long, Integer> orderTransactions) {
+    private void orderResult(OrderTransactions orderTransactions) {
 
         OrderResultDto result = orderService.order(orderTransactions);
 

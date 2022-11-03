@@ -4,6 +4,7 @@ import product.order.cli.app.domain.Delivery;
 import product.order.cli.app.domain.Order;
 import product.order.cli.app.domain.Product;
 import product.order.cli.app.dto.OrderResultDto;
+import product.order.cli.app.formatter.OrderTransactions;
 import product.order.cli.app.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional
@@ -21,14 +21,12 @@ public class OrderService {
 
     private final ProductRepository productRepository;
 
-    public OrderResultDto order(Map<Long, Integer> orderTransactions) {
+    public OrderResultDto order(OrderTransactions orderTransactions) {
 
-        List<Long> productNumbers = new ArrayList<>(orderTransactions.keySet());
-
-        List<Product> products = productRepository.findByNumbers(productNumbers);
+        List<Product> products = productRepository.findByNumbers(orderTransactions.productNumbers());
         productIsEmpty(products);
 
-        return orderResult(new ArrayList<>(orderTransactions.values()), products);
+        return orderResult(new ArrayList<>(orderTransactions.orderQuantities()), products);
     }
 
     private void productIsEmpty(List<Product> products) {
@@ -41,7 +39,8 @@ public class OrderService {
 
         List<Order> orders = orderInfo(orderQuantities, products);
 
-        BigDecimal totalOrderAmount = totalOrderAmountCalculate(orders);
+        BigDecimal totalOrderAmount = getTotalOrderAmount(orders);
+
         BigDecimal deliveryFee = deliveryFeeSetup(totalOrderAmount);
 
         return OrderResultDto.toDto(orders, deliveryFee, totalOrderAmount);
@@ -65,7 +64,7 @@ public class OrderService {
         return delivery.deliveryFeeSetup(totalOrderAmount);
     }
 
-    private BigDecimal totalOrderAmountCalculate(List<Order> orders) {
+    private BigDecimal getTotalOrderAmount(List<Order> orders) {
         BigDecimal totalOrderAmount = new BigDecimal("0");
 
         for (Order order : orders) {
