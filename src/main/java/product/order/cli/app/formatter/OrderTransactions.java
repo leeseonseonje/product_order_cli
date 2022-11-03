@@ -14,11 +14,11 @@ public class OrderTransactions {
         map.put(productNumber, currentQuantity + quantity);
     }
 
-    public List<Long> productNumbers() {
-        return new ArrayList<>(map.keySet());
+    public Set<Long> productNumbers() {
+        return map.keySet();
     }
 
     public List<Integer> orderQuantities() {
-        return (List<Integer>) map.values();
+        return new ArrayList<>(map.values());
     }
 }

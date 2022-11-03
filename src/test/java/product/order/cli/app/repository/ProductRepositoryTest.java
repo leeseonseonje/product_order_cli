@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import product.order.cli.app.domain.Product;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -28,7 +29,7 @@ class ProductRepositoryTest {
 
     @Test
     void findByNumbers() {
-        List<Long> ids = List.of(1L, 2L, 3L, 4L, 5L);
+        Set<Long> ids = Set.of(1L, 2L, 3L, 4L, 5L);
 
         List<Product> products = productRepository.findByNumbers(ids);
 

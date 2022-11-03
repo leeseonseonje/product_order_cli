@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import product.order.cli.app.formatter.OrderTransactions;
 import product.order.cli.app.repository.ProductRepository;
 
 import java.math.BigDecimal;
@@ -37,13 +38,13 @@ class OrderServiceTest {
     @Test
     void orderTest() {
 
-        Map<Long, Integer> orderTransactions = new HashMap<>();
-        orderTransactions.put(1L, 1);
-        orderTransactions.put(2L, 3);
+        OrderTransactions orderTransactions = new OrderTransactions();
+        orderTransactions.createOrderTransaction(1L, 1);
+        orderTransactions.createOrderTransaction(1L, 1);
 
         OrderResultDto orderResultDto = orderService.order(orderTransactions);
 
-        assertThat(orderResultDto.getFee()).isEqualTo(new BigDecimal(0));
-        assertThat(orderResultDto.getTotalOrderAmount()).isEqualTo(new BigDecimal("70000"));
+        assertThat(orderResultDto.getFee()).isEqualTo(new BigDecimal("2500"));
+        assertThat(orderResultDto.getTotalOrderAmount()).isEqualTo(new BigDecimal("20000"));
     }
 }

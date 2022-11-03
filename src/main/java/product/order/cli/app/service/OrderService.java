@@ -40,8 +40,7 @@ public class OrderService {
         List<Order> orders = orderInfo(orderQuantities, products);
 
         BigDecimal totalOrderAmount = getTotalOrderAmount(orders);
-
-        BigDecimal deliveryFee = deliveryFeeSetup(totalOrderAmount);
+        BigDecimal deliveryFee = getDeliveryFee(totalOrderAmount);
 
         return OrderResultDto.toDto(orders, deliveryFee, totalOrderAmount);
     }
@@ -59,7 +58,7 @@ public class OrderService {
         return orders;
     }
 
-    private BigDecimal deliveryFeeSetup(BigDecimal totalOrderAmount) {
+    private BigDecimal getDeliveryFee(BigDecimal totalOrderAmount) {
         Delivery delivery = Delivery.of(2500);
         return delivery.deliveryFeeSetup(totalOrderAmount);
     }

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import product.order.cli.app.domain.Product;
 import product.order.cli.app.exception.SoldOutException;
+import product.order.cli.app.formatter.OrderTransactions;
 import product.order.cli.app.repository.ProductRepository;
 import product.order.cli.app.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
@@ -59,13 +60,12 @@ public class MultiThreadIntegrationTest {
     @Test
     @DisplayName("select for update 문으로 잠금 획득, 재고가 0일 경우 SoleOutException 발생")
     void updateMultiThreadTest() throws InterruptedException {
-        Map<Long, Integer> orderTransactions = new HashMap<>();
-        orderTransactions.put(1L, 1);
+        OrderTransactions orderTransactions = createOrderTransactions(1L);
 
         updateMultiThread(orderTransactions);
     }
 
-    private void updateMultiThread(Map<Long, Integer> orderTransactions) throws InterruptedException {
+    private void updateMultiThread(OrderTransactions orderTransactions) throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -85,12 +85,17 @@ public class MultiThreadIntegrationTest {
     @Test
     @DisplayName("비관적 락으로 인하여 각 스레드의 트랜잭션이 순차적으로 커밋되어야 한다.")
     void selectForUpdateTest() throws InterruptedException {
-        Map<Long, Integer> orderTransactions = new HashMap<>();
-        orderTransactions.put(2L, 1);
+        OrderTransactions orderTransactions = createOrderTransactions(2L);
 
         selectForUpdate(orderTransactions);
     }
-    private void selectForUpdate(Map<Long, Integer> orderTransactions) throws InterruptedException {
+
+    private OrderTransactions createOrderTransactions(Long productNumber) {
+        OrderTransactions orderTransactions = new OrderTransactions();
+        orderTransactions.createOrderTransaction(productNumber, 1);
+        return orderTransactions;
+    }
+    private void selectForUpdate(OrderTransactions orderTransactions) throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
         CountDownLatch latch = new CountDownLatch(50);
